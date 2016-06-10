@@ -245,7 +245,13 @@ sub _detect_mysqld_version {
 
     my $mysqld = $self->mysqld;
     my $ret = `$mysqld --version`;
-    return qv($1) if $ret =~ /Ver\s+(\S+)/;
+    return $self->_parse_mysqld_version($ret);
+}
+
+sub _parse_mysqld_version {
+    my $self = shift;
+    my $str  = shift;
+    return qv($1) if $str =~ /Ver\s+([0-9\.]+)/;
     return;
 }
 
